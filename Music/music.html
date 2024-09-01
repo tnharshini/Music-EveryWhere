@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Webpage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Music World 🎬</h1>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search for a song..." autocomplete="off" />
+            <ul id="suggestions-list"></ul>
+        </div>
+    </header>
+
+    <div id="home-page">
+        <section class="info-section" id="info-section">
+            <img id="homepage-image" src="music1.jpeg" alt="Homepage Image" />
+            <h2>Welcome to Music World</h2>
+            <p>Your ultimate destination for exploring and enjoying your favorite music tracks.</p>
+        </section>
+
+        <section class="song-section" id="song-section" style="display: none;">
+            <img id="song-image" src="" alt="Song Image" />
+            <audio id="audio-player" controls></audio>
+            <div class="song-details">
+                <h3 id="song-title">Song Title</h3>
+                <p id="song-artist">Artist Name</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>Contact us: <a href="mailto:contact@musicworld.com">contact@musicworld.com</a></p>
+        <p>&copy; 2024 Music World. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const searchBar = document.getElementById("search-bar");
+    const suggestionsList = document.getElementById("suggestions-list");
+    const infoSection = document.getElementById("info-section");
+    const songSection = document.getElementById("song-section");
+    const songImage = document.getElementById("song-image");
+    const audioPlayer = document.getElementById("audio-player");
+    const songTitle = document.getElementById("song-title");
+    const songArtist = document.getElementById("song-artist");
+
+    // Example songs data
+    const songs = {
+        "Naruto Shippuuden Opening 2 - Haruka Kanata_default": {
+            title: "Naruto Shippuuden Opening 2 - Haruka Kanata_default",
+            artist: "Asian Kung-Fu Generation",
+            image: "naruto.jpeg",
+            audio: "Naruto Shippuuden Opening 2 - Haruka Kanata_default.mp3"
+        },
+        "Boku no Hero Academia Opening 1 - THE DAY_default": {
+            title: "Boku no Hero Academia Opening 1 - THE DAY_default",
+            artist: "Kenshi Yonezu",
+            image: "deku.jpeg",
+            audio: "Boku no Hero Academia Opening 1 - THE DAY_default.mp3"
+        },
+        "Dragon Ball Super Opening 2 - Limit-Break x Survivor_default": {
+            title: "Dragon Ball Super Opening 2 - Limit-Break x Survivor_default",
+            artist: "Kiyoshi Hikawa",
+            image: "dragon.jpeg",
+            audio: "Dragon Ball Super Opening 2 - Limit-Break x Survivor_default.mp3"
+        },
+        "Jujutsu Kaisen Opening - KAIKAIKITAN_tv": {
+            title: "Jujutsu Kaisen Opening - KAIKAIKITAN_tv",
+            artist: "Eve",
+            image: "gojo.jpg",
+            audio: "Jujutsu Kaisen Opening - KAIKAIKITAN_tv.mp3"
+        },
+        "Death Note Opening 1 - The World_default": {
+            title: "Death Note Opening 1 - The World_default",
+            artist: "Nightmare",
+            image: "death.jpeg",
+            audio: "Death Note Opening 1 - The World_default.mp3"
+        }
+    };
+
+    searchBar.addEventListener("input", function(event) {
+        const query = event.target.value.trim().toLowerCase();
+
+        // Clear previous suggestions
+        suggestionsList.innerHTML = '';
+        suggestionsList.style.display = 'none';
+
+        if (query) {
+            const suggestions = Object.keys(songs).filter(song => song.toLowerCase().startsWith(query));
+
+            if (suggestions.length > 0) {
+                suggestions.forEach(songKey => {
+                    const song = songs[songKey];
+                    const li = document.createElement('li');
+                    li.textContent = song.title;
+                    li.addEventListener('click', function() {
+                        displaySong(song);
+                    });
+                    suggestionsList.appendChild(li);
+                });
+                suggestionsList.style.display = 'block';
+            } else {
+                // If no results found
+                const li = document.createElement('li');
+                li.textContent = 'No results found';
+                li.style.color = 'red';
+                suggestionsList.appendChild(li);
+                suggestionsList.style.display = 'block';
+            }
+        }
+    });
+
+    function displaySong(song) {
+        songImage.src = song.image;
+        audioPlayer.src = song.audio;
+        songTitle.textContent = song.title;
+        songArtist.textContent = song.artist;
+
+        // Hide info section and show song section
+        infoSection.style.display = "none";
+        songSection.style.display = "flex";
+
+        // Clear the search bar and hide suggestions
+        searchBar.value = '';
+        suggestionsList.style.display = 'none';
+    }
+});
+    </script>
+</body>
+</html>
